@@ -68,9 +68,9 @@ void main(void)
     // Initialize ADCs
     //----------------------------------------------------------------------------------------------
     //setup ADC clock, single-ended mode, enable ADCs
-    //initADCs();
+    initADCs();
     //setup ADC SOC configurations
-    //initADCSOCs();
+    initADCSOCs();
 
     //----------------------------------------------------------------------------------------------
     // Initialize Half Bridges
@@ -293,17 +293,17 @@ void main(void)
             //----------------------------------------------------------------------------------------------
             // Signal Acquisition & Filtering
             //----------------------------------------------------------------------------------------------
-            /*
+
             // Read ADCs sequentially, this updates the system_dyn_state structure
             readAnalogInputs();
             // TODO: Filter the acquired analog signals in system_dyn_state_filtered
             // ---
             // TODO: Filter the input reference signals
-            unsigned int i=0;
-            for(i=0; i<NO_CHANNELS; i++){
-                update_first_order(des_duty_buck_filt+i,des_duty_buck[i]);
-            }
-            */
+//            unsigned int i=0;
+//            for(i=0; i<NO_CHANNELS; i++){
+//                update_first_order(des_duty_buck_filt+i,des_duty_buck[i]);
+//            }
+
 
 
             //----------------------------------------------------------------------------------------------
