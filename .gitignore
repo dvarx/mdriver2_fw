@@ -1,0 +1,12 @@
+mdriver_cm/Flash
+mdriver_cpu1/CPU1_FLASH
+mdriver_cpu1/CPU1_RAM
+*RAM*
+*.prefs
+#compiler output files
+*.d
+*.obj
+*.out
+*.map
+*linkInfo.xml
+*.d_raw*
