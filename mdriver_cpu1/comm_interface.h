@@ -18,7 +18,7 @@ enum command{IPC_MSG_STOP_ALL=0,IPC_MSG_NEW_MSG=1};
  * desCurrents : are in units of [mA]
  * desDuties : are integers in range [0,UINT16_MAX]
  */
-struct tnb_mns_msg{
+struct mdriver_msg{
     int16_t desCurrents[NO_CHANNELS];       //currents in [A]
     uint16_t desCurrentsRes[NO_CHANNELS];   //currents in [A]
     uint16_t desDuties[NO_CHANNELS];
@@ -29,7 +29,7 @@ struct tnb_mns_msg{
     uint8_t  resen_flg_byte;
 };
 
-struct tnb_mns_msg_c2000{
+struct mdriver_msg_c2000{
     int16_t desCurrents[NO_CHANNELS];       //currents in [A]
     uint16_t desCurrentsRes[NO_CHANNELS];   //currents in [A]
     uint16_t desDuties[NO_CHANNELS];
@@ -39,6 +39,16 @@ struct tnb_mns_msg_c2000{
     uint16_t regen_flg_byte;
     uint16_t  resen_flg_byte;
 };
+
+//struct for receiving the state of the TNB MNS system
+struct mdriver_msg_sysstate{
+    uint16_t states[NO_CHANNELS];
+    int16_t currents[NO_CHANNELS];          // [mA]
+    uint16_t duties[NO_CHANNELS];
+    uint32_t freqs[NO_CHANNELS];
+    int16_t dclink_voltages[NO_CHANNELS];      // [mA]
+};
+
 
 
 extern const unsigned int OFFSET_DES_DUTIES;

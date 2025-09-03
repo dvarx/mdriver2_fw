@@ -5,10 +5,10 @@
  *      Author: dvarx
  */
 
-#include "tnb_mns_fsm.h"
-#include "tnb_mns_cpu1.h"
+#include <mdriver_cpu1.h>
+#include <mdriver_epwm.h>
+#include <mdriver_fsm.h>
 #include <stdint.h>
-#include "tnb_mns_epwm.h"
 
 struct channel_fsm coil_fsm_states[NO_CHANNELS];
 

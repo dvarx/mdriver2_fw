@@ -5,10 +5,10 @@
  *      Author: dvarx
  */
 
-#ifndef TNB_MNS_EPWM_H_
-#define TNB_MNS_EPWM_H_
+#ifndef MDRIVER_EPWM_H_
+#define MDRIVER_EPWM_H_
 
-#include "tnb_mns_cpu1.h"
+#include <mdriver_cpu1.h>
 #include <stdint.h>
 
 #define EPWM_TIMER_TBPRD_BUCK       512UL
@@ -35,4 +35,4 @@ void synchronize_pwm_tochannel0(struct driver_channel** channels, const unsigned
 //unsynchronize the epwm counter of channel <channel_to_sync> to epwm counter of channel 0
 void unsynchronize_pwm_tochannel0(struct driver_channel** channels, const unsigned int channel_to_sync);
 
-#endif /* TNB_MNS_EPWM_H_ */
+#endif /* MDRIVER_EPWM_H_ */

@@ -60,6 +60,8 @@ uint32_t readData[10];
 struct mdriver_msg ipc_msg_tnb_mns;
 #pragma DATA_SECTION(ipc_msg_tnb_mns_c2000, "MSGRAM_CM_TO_CPU1")
 struct mdriver_msg ipc_msg_tnb_mns_c2000;
+
+
 #define BUFFER_SIZE 512
 uint8_t sysstatebuffer[BUFFER_SIZE];
 
@@ -769,7 +771,7 @@ err_t tcp_recvd_cb(void* arg, struct tcp_pcb* tcppcb, struct pbuf* p,err_t err){
             }
             memcpy(buffer,p->payload,p->len);
             //indicate that a new command is available for processing in the buffer
-            //command_available=true;
+            command_available=true;
             // -- indicate that bytes were read and we are ready to receive more data --
             pbuf_free(p);
             tcp_recved(tcppcb,bytes_read);   //indicate that no_bytes_read were read and we are ready to receive more data
@@ -840,7 +842,7 @@ void processCommand(){
 
     //send IPC message from CM to CPU1
     IPC_sendCommand(IPC_CM_L_CPU1_R, IPC_FLAG0, IPC_ADDR_CORRECTION_ENABLE,
-                    IPC_MSG_NEW_MSG, &ipc_msg_tnb_mns_c2000, sizeof(ipc_msg_tnb_mns_c2000));
+                    IPC_MSG_NEW_MSG, (uint32_t)&ipc_msg_tnb_mns_c2000, sizeof(ipc_msg_tnb_mns_c2000));
     IPC_waitForAck(IPC_CM_L_CPU1_R, IPC_FLAG0);
 
     //wait for IPC message from CPU1 containing system state

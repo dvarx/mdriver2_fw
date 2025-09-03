@@ -198,7 +198,7 @@
 //#define TCP_MAXRTX                      12    // maximum number of retransmissions
 //#define TCP_SYNMAXRTX                   6     // maximum number of retransmissions of SYN packets
 //#define TCP_QUEUE_OOSEQ                 1     // enables out-of-sequence buffering
-#define TCP_MSS                        128        // TCP maximum segment size : maximum amount of TCP data that can be sent in a single TCP packet
+#define TCP_MSS                        256        // TCP maximum segment size : maximum amount of TCP data that can be sent in a single TCP packet
 //#define TCP_CALCULATE_EFF_SEND_MSS      1
 #define TCP_SND_BUF                     (4 * TCP_MSS)   // TCP send buffer :
 //#define TCP_SND_QUEUELEN                (4 * (TCP_SND_BUF/TCP_MSS))
@@ -372,13 +372,13 @@ extern void UARTprintf(const char *pcString, ...);
 #endif
 
 //#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_OFF
-#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_OFF
+//#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_OFF
 //#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_WARNING
 //#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_SERIOUS
 //#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_SEVERE
 
 //#define LWIP_DBG_TYPES_ON               LWIP_DBG_ON
-#define LWIP_DBG_TYPES_ON               (LWIP_DBG_ON|LWIP_DBG_TRACE|LWIP_DBG_STATE|LWIP_DBG_FRESH)
+//#define LWIP_DBG_TYPES_ON               (LWIP_DBG_ON|LWIP_DBG_TRACE|LWIP_DBG_STATE|LWIP_DBG_FRESH)
 
 //#define ETHARP_DEBUG                    LWIP_DBG_ON     // default is OFF
 //#define NETIF_DEBUG                     LWIP_DBG_ON     // default is OFF
@@ -395,15 +395,15 @@ extern void UARTprintf(const char *pcString, ...);
 //#define MEM_DEBUG                       LWIP_DBG_OFF
 //#define MEMP_DEBUG                      LWIP_DBG_OFF
 //#define SYS_DEBUG                       LWIP_DBG_OFF
-#define TCP_DEBUG                       LWIP_DBG_OFF
-#define TCP_INPUT_DEBUG                 LWIP_DBG_OFF
-#define TCP_FR_DEBUG                    LWIP_DBG_OFF
-#define TCP_RTO_DEBUG                   LWIP_DBG_OFF
-#define TCP_CWND_DEBUG                  LWIP_DBG_OFF
-#define TCP_WND_DEBUG                   LWIP_DBG_OFF
-#define TCP_OUTPUT_DEBUG                LWIP_DBG_OFF
-#define TCP_RST_DEBUG                   LWIP_DBG_OFF
-#define TCP_QLEN_DEBUG                  LWIP_DBG_OFF
+//#define TCP_DEBUG                       LWIP_DBG_OFF
+//#define TCP_INPUT_DEBUG                 LWIP_DBG_OFF
+//#define TCP_FR_DEBUG                    LWIP_DBG_OFF
+//#define TCP_RTO_DEBUG                   LWIP_DBG_OFF
+//#define TCP_CWND_DEBUG                  LWIP_DBG_OFF
+//#define TCP_WND_DEBUG                   LWIP_DBG_OFF
+//#define TCP_OUTPUT_DEBUG                LWIP_DBG_OFF
+//#define TCP_RST_DEBUG                   LWIP_DBG_OFF
+//#define TCP_QLEN_DEBUG                  LWIP_DBG_OFF
 //#define UDP_DEBUG                       LWIP_DBG_ON     // default is OFF
 //#define TCPIP_DEBUG                     LWIP_DBG_OFF
 //#define PPP_DEBUG                       LWIP_DBG_OFF

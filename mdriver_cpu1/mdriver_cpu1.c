@@ -5,12 +5,12 @@
  *      Author: dvarx
  */
 
-#include "tnb_mns_cpu1.h"
+#include <mdriver_cpu1.h>
+#include <mdriver_defs.h>
+#include <mdriver_fsm.h>
 #include "driverlib.h"
 #include "device.h"
 #include "fbctrl.h"
-#include "tnb_mns_defs.h"
-#include "tnb_mns_fsm.h"
 
 // ------------------------------------------------------------------------------------
 // Pin & Pad Configuration Structures
@@ -179,7 +179,10 @@ struct first_order des_duty_buck_filt[NO_CHANNELS]={
                                  {1.0/(1.0+2.0*TAU_BUCK_DUTY/deltaT),1.0/(1.0+2.0*TAU_BUCK_DUTY/deltaT),-(1.0-2.0*TAU_BUCK_DUTY/deltaT)/(1.0+2.0*TAU_BUCK_DUTY/deltaT),0,0,0}
 };
 uint32_t des_freq_resonant_mhz[NO_CHANNELS]={DEFAULT_RES_FREQ_MILLIHZ,DEFAULT_RES_FREQ_MILLIHZ,DEFAULT_RES_FREQ_MILLIHZ};
-struct tnb_mns_msg_c2000 ipc_tnb_mns_msg_c2000;
+struct mdriver_msg_c2000 ipc_tnb_mns_msg_c2000;
+
+#pragma DATA_SECTION(mdriver_msg_sysstate_msg, "MSGRAM_CPU_TO_CM")
+struct mdriver_msg_sysstate mdriver_msg_sysstate_msg;
 // ------------------------------------------------------------------------------------
 // Main CPU Timer Related Functions
 // ------------------------------------------------------------------------------------
@@ -306,7 +309,7 @@ __interrupt void IPC_ISR0()
 
     if(command == IPC_MSG_NEW_MSG){
         //copy tnb mns message
-        memcpy(&ipc_tnb_mns_msg_c2000,(struct tnb_mns_msg*)addr,sizeof(ipc_tnb_mns_msg_c2000));
+        memcpy(&ipc_tnb_mns_msg_c2000,(struct mdriver_msg*)addr,sizeof(ipc_tnb_mns_msg_c2000));
 
         //check flags and copy their values in the flag arrays used by the FSM
         unsigned short i=0;
@@ -339,20 +342,16 @@ __interrupt void IPC_ISR0()
                 des_duty_buck[i]=0.0;
             }
         }
-        //check frequencies and set them
-        //changing the resonant frequency is only allowed in the RUN_RESONANT state
+
+        //copy system states and currents
         for(i=0; i<NO_CHANNELS; i++){
-            if(driver_channels[i]->channel_state!=RUN_RESONANT)
-                des_freq_resonant_mhz[i]=DEFAULT_RES_FREQ_MILLIHZ;
-            else{
-                if(ipc_tnb_mns_msg_c2000.desFreqs[i]<MINIMUM_RES_FREQ_MILLIHZ)
-                    des_freq_resonant_mhz[i]=MINIMUM_RES_FREQ_MILLIHZ;
-                else
-                    des_freq_resonant_mhz[i]=(uint32_t)(ipc_tnb_mns_msg_c2000.desFreqs[i]);
-            }
+            mdriver_msg_sysstate_msg.currents[i]=(int16_t)(1e3*system_dyn_state.is[i]);
+            mdriver_msg_sysstate_msg.states[i]=driver_channels[i]->channel_state;
         }
+
+
         IPC_sendCommand(IPC_CPU1_L_CM_R, IPC_FLAG0, IPC_ADDR_CORRECTION_ENABLE,
-                        IPC_MSG_NEW_MSG, &ipc_tnb_mns_msg_c2000, sizeof(struct tnb_mns_msg_c2000));
+                        IPC_MSG_NEW_MSG, (uint32_t)&mdriver_msg_sysstate_msg, sizeof(mdriver_msg_sysstate_msg));
         //set the communication_active variable
         communication_active=true;
         //reset the timer

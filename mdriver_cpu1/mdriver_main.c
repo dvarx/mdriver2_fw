@@ -5,25 +5,29 @@
  * ############################################################
  */
 
-//
+//c
 // Included Files
 //
 #include "driverlib.h"
 #include "device.h"
-#include "tnb_mns_cpu1.h"
-#include "tnb_mns_epwm.h"
-#include "tnb_mns_adc.h"
 #include <stdbool.h>
-#include "tnb_mns_fsm.h"
 #include "fbctrl.h"
-#include "tnb_mns_cpu1.h"
-#include "tnb_mns_defs.h"
 #include <math.h>
+#include <mdriver_adc.h>
+#include <mdriver_cpu1.h>
+#include <mdriver_cpu1.h>
+#include <mdriver_cpu1.h>
+#include <mdriver_defs.h>
+#include <mdriver_epwm.h>
+#include <mdriver_fsm.h>
 #include "ipc.h"
-#include "tnb_mns_cpu1.h"
 
 bool run_main_control_task=false;
 bool enable_waveform_debugging=false;
+
+uint32_t loop_counter=0;
+float ides=0.0;
+float ides_ampl=1.0;
 
 void main(void)
 {
@@ -259,7 +263,6 @@ void main(void)
         driver_channels[n]->channel_state=READY;
     }
 
-    uint32_t loop_counter=0;
     // Main Loop
     while(1){
         if(run_main_task){
@@ -296,6 +299,7 @@ void main(void)
 
             // Read ADCs sequentially, this updates the system_dyn_state structure
             readAnalogInputs();
+
             // TODO: Filter the acquired analog signals in system_dyn_state_filtered
             // ---
             // TODO: Filter the input reference signals
@@ -309,30 +313,31 @@ void main(void)
             //----------------------------------------------------------------------------------------------
             // Control Law Execution
             //----------------------------------------------------------------------------------------------
-            /*
+
             //compute optional reference waveform
-            //#define OMEGA 2*3.14159265358979323846*5
-            //float ides=sin(OMEGA*loop_counter*deltaT);
-            const unsigned int periodn=500e-3/deltaT;
-            float ides=0.0;
-            if(loop_counter%periodn<periodn/2)
-                ides=1.0;
-            else
-                ides=-1.0;
+//            #define OMEGA 2*3.14159265358979323846*5
+//            ides=ides_ampl*sin(OMEGA*loop_counter*deltaT);
+//            const unsigned int periodn=500e-3/deltaT;
+//            float ides=0.0;
+//            if(loop_counter%periodn<periodn/2)
+//                ides=1.0;
+//            else
+//                ides=-1.0;
             //regulate outputs of channels
             // ...
-             * */
+
 
 
             //----------------------------------------------------------------------------------------------
             // Control Law Execution & Output Actuation
             //----------------------------------------------------------------------------------------------
-            /*
+
             //set output duties for buck
 //            for(i=0; i<NO_CHANNELS; i++){
 //                set_duty_buck(driver_channels[i]->buck_config,(des_duty_buck_filt+i)->y);
 //            }
             //set output duties for bridge [regular mode]
+            unsigned int i;
             for(i=0; i<NO_CHANNELS; i++){
                 if(driver_channels[i]->channel_state==RUN_REGULAR){
                     #ifdef TUNE_CLOSED_LOOP
@@ -341,8 +346,6 @@ void main(void)
                         else
                             ides=0.0;
                     #endif
-                    //execute the PI control low
-                    float voltage_dclink=VIN*(des_duty_buck_filt+i)->y;
                     //compute feed forward actuation term (limits [-1,1] for this duty) - feed-forward term currently not used
                     #ifdef FEED_FORWARD_ONLY
                         float act_voltage_ff=des_currents[i]*RDC;
@@ -360,8 +363,8 @@ void main(void)
                         bool output_saturated=fabsf((current_pi+i)->u)>=0.9*voltage_dclink;
                         float act_voltage_fb=update_pid(current_pi+i,des_currents[i],system_dyn_state.is[i],output_saturated);
                     #endif
-                    float duty_ff=act_voltage_ff/voltage_dclink;
-                    float duty_fb=act_voltage_fb/(voltage_dclink);
+                    float duty_ff=act_voltage_ff/VIN;
+                    float duty_fb=act_voltage_fb/(VIN);
 
                     //convert normalized duty cycle, limit it and apply
                     float duty_bridge=0.5*(1+(duty_ff+duty_fb));
@@ -389,7 +392,6 @@ void main(void)
             //uint32_t chc_buck_state=GPIO_readPin(chc_buck.state_gpio);
             uint32_t chc_bridge_state_u=GPIO_readPin(chc_bridge.state_v_gpio);
             uint32_t chc_bridge_state_v=GPIO_readPin(chc_bridge.state_u_gpio);
-            */
 
             run_main_task=false;
             loop_counter=loop_counter+1;

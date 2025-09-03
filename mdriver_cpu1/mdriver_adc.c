@@ -5,10 +5,10 @@
  *      Author: dvarx
  */
 
+#include <mdriver_cpu1.h>
 #include "driverlib.h"
 #include "device.h"
 #include "stdbool.h"
-#include "tnb_mns_cpu1.h"
 
 //
 // Defines
@@ -245,6 +245,9 @@ float buffer_i0s_fl[BUFFER_NO];
 float buffer_i1s_fl[BUFFER_NO];
 float buffer_i2s_fl[BUFFER_NO];
 uint16_t buffer_cnt=0;
+unsigned int modcounter=0;
+#define CURRENT_MODULO 10
+
 // This function reads the analog inputs and stores them in the system_dyn_state structure
 void readAnalogInputs(void){
     // ADC A Measurements -----------------------------------------------
@@ -252,7 +255,6 @@ void readAnalogInputs(void){
     // Wait for ADCA to complete, then acknowledge flag
     while(ADC_getInterruptStatus(ADCA_BASE, ADC_INT_NUMBER1) == false){}
     system_dyn_state.is[0] = conv_adc_meas_to_current_a(ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER0),0);
-    buffer_i0s_fl[buffer_cnt]=system_dyn_state.is[0];
     system_dyn_state.is[1] = conv_adc_meas_to_current_a(ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER1),1);
     system_dyn_state.is[2] = conv_adc_meas_to_current_a(ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER2),2);
     ADC_clearInterruptStatus(ADCA_BASE, ADC_INT_NUMBER1);
@@ -270,9 +272,7 @@ void readAnalogInputs(void){
     // Wait for ADCC to complete, then acknowledge flag
     while(ADC_getInterruptStatus(ADCC_BASE, ADC_INT_NUMBER1) == false){}
     system_dyn_state.is[5] = conv_adc_meas_to_current_a(ADC_readResult(ADCCRESULT_BASE, ADC_SOC_NUMBER0),5);
-    buffer_i1s_fl[buffer_cnt]=system_dyn_state.is[5];
     system_dyn_state.is[6] = conv_adc_meas_to_current_a(ADC_readResult(ADCCRESULT_BASE, ADC_SOC_NUMBER1),6);
-    buffer_i2s_fl[buffer_cnt]=system_dyn_state.is[6];
 
     ADC_clearInterruptStatus(ADCC_BASE, ADC_INT_NUMBER1);
 
@@ -284,5 +284,11 @@ void readAnalogInputs(void){
     system_dyn_state.is[8] = conv_adc_meas_to_current_a(ADC_readResult(ADCDRESULT_BASE, ADC_SOC_NUMBER1),8);
     ADC_clearInterruptStatus(ADCD_BASE, ADC_INT_NUMBER1);
 
-    buffer_cnt=(buffer_cnt+1)%BUFFER_NO;
+    if((modcounter%CURRENT_MODULO)==0){
+        buffer_i0s_fl[buffer_cnt]=system_dyn_state.is[0];
+        buffer_i1s_fl[buffer_cnt]=system_dyn_state.is[1];
+        buffer_i2s_fl[buffer_cnt]=system_dyn_state.is[2];
+        buffer_cnt=(buffer_cnt+1)%BUFFER_NO;
+    }
+    modcounter++;
 }

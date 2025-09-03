@@ -10,45 +10,45 @@ LIB_SRCS += \
 $(C2000WareDir)/driverlib/f2838x/driverlib/ccs/Debug/driverlib.lib 
 
 C_SRCS += \
-../tnb_mns_adc.c \
-../tnb_mns_cpu1.c \
-../tnb_mns_cpu1_main.c \
-../tnb_mns_epwm.c \
-../tnb_mns_fsm.c 
+../mdriver_adc.c \
+../mdriver_cpu1.c \
+../mdriver_cpu1_main.c \
+../mdriver_epwm.c \
+../mdriver_fsm.c 
 
 C_DEPS += \
-./tnb_mns_adc.d \
-./tnb_mns_cpu1.d \
-./tnb_mns_cpu1_main.d \
-./tnb_mns_epwm.d \
-./tnb_mns_fsm.d 
+./mdriver_adc.d \
+./mdriver_cpu1.d \
+./mdriver_cpu1_main.d \
+./mdriver_epwm.d \
+./mdriver_fsm.d 
 
 OBJS += \
-./tnb_mns_adc.obj \
-./tnb_mns_cpu1.obj \
-./tnb_mns_cpu1_main.obj \
-./tnb_mns_epwm.obj \
-./tnb_mns_fsm.obj 
+./mdriver_adc.obj \
+./mdriver_cpu1.obj \
+./mdriver_cpu1_main.obj \
+./mdriver_epwm.obj \
+./mdriver_fsm.obj 
 
 OBJS__QUOTED += \
-"tnb_mns_adc.obj" \
-"tnb_mns_cpu1.obj" \
-"tnb_mns_cpu1_main.obj" \
-"tnb_mns_epwm.obj" \
-"tnb_mns_fsm.obj" 
+"mdriver_adc.obj" \
+"mdriver_cpu1.obj" \
+"mdriver_cpu1_main.obj" \
+"mdriver_epwm.obj" \
+"mdriver_fsm.obj" 
 
 C_DEPS__QUOTED += \
-"tnb_mns_adc.d" \
-"tnb_mns_cpu1.d" \
-"tnb_mns_cpu1_main.d" \
-"tnb_mns_epwm.d" \
-"tnb_mns_fsm.d" 
+"mdriver_adc.d" \
+"mdriver_cpu1.d" \
+"mdriver_cpu1_main.d" \
+"mdriver_epwm.d" \
+"mdriver_fsm.d" 
 
 C_SRCS__QUOTED += \
-"../tnb_mns_adc.c" \
-"../tnb_mns_cpu1.c" \
-"../tnb_mns_cpu1_main.c" \
-"../tnb_mns_epwm.c" \
-"../tnb_mns_fsm.c" 
+"../mdriver_adc.c" \
+"../mdriver_cpu1.c" \
+"../mdriver_cpu1_main.c" \
+"../mdriver_epwm.c" \
+"../mdriver_fsm.c" 
 
 

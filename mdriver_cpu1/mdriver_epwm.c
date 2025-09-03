@@ -5,7 +5,7 @@
  *      Author: dvarx
  */
 
-#include "tnb_mns_epwm.h"
+#include <mdriver_epwm.h>
 #include "driverlib.h"
 #include "device.h"
 #include "stdint.h"
@@ -110,8 +110,8 @@ void setup_epwm_deadband(uint32_t base)
     // Set the RED and FED values
     //
     // TODO : The constant value of 40 here sets the interlock of the buck stage to around 400ns, might need to adjust / optimize this at some point
-    EPWM_setFallingEdgeDelayCount(base, 60);
-    EPWM_setRisingEdgeDelayCount(base, 60);
+    EPWM_setFallingEdgeDelayCount(base, 240);
+    EPWM_setRisingEdgeDelayCount(base, 240);
 
     //
     // Invert only the Falling Edge delayed output (AHC)

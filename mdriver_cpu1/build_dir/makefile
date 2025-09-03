@@ -8,11 +8,11 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
-"./tnb_mns_adc.obj" \
-"./tnb_mns_cpu1.obj" \
-"./tnb_mns_cpu1_main.obj" \
-"./tnb_mns_epwm.obj" \
-"./tnb_mns_fsm.obj" \
+"./mdriver_adc.obj" \
+"./mdriver_cpu1.obj" \
+"./mdriver_cpu1_main.obj" \
+"./mdriver_epwm.obj" \
+"./mdriver_fsm.obj" \
 "./device/device.obj" \
 "./device/f2838x_codestartbranch.obj" \
 "../2838x_FLASH_lnk_cpu1.cmd" \
@@ -148,8 +148,8 @@ mdriver2_cpu1.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "tnb_mns_adc.obj" "tnb_mns_cpu1.obj" "tnb_mns_cpu1_main.obj" "tnb_mns_epwm.obj" "tnb_mns_fsm.obj" "device/device.obj" "device/f2838x_codestartbranch.obj" 
-	-$(RM) "tnb_mns_adc.d" "tnb_mns_cpu1.d" "tnb_mns_cpu1_main.d" "tnb_mns_epwm.d" "tnb_mns_fsm.d" "device/device.d" 
+	-$(RM) "mdriver_adc.obj" "mdriver_cpu1.obj" "mdriver_cpu1_main.obj" "mdriver_epwm.obj" "mdriver_fsm.obj" "device/device.obj" "device/f2838x_codestartbranch.obj" 
+	-$(RM) "mdriver_adc.d" "mdriver_cpu1.d" "mdriver_cpu1_main.d" "mdriver_epwm.d" "mdriver_fsm.d" "device/device.d" 
 	-$(RM) "device/f2838x_codestartbranch.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
